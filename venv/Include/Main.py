@@ -45,20 +45,22 @@ class Mesh:
         for i in range(len(self.matrix)):
             for j in range(len(self.matrix[i])):
                 if self.matrix[i][j]==-1:
-                    print(bcolors.OKGREEN+"#", end=" ")
+                    print(bcolors.OKGREEN+"#"+ bcolors.ENDC, end=" ")
                 if self.matrix[i][j]==0:
-                    print(bcolors.BOLD+"0", end=" ")
+                    print(bcolors.BOLD+"0"+ bcolors.ENDC, end=" ")
                 if self.matrix[i][j]==4:
-                    print(bcolors.OKGREEN+"^", end=" ")
+                    print(bcolors.HEADER+"^"+ bcolors.ENDC, end=" ")
                 if self.matrix[i][j]==5:
-                    print(bcolors.WARNING+"%", end=" ")
+                    print(bcolors.WARNING+"%"+ bcolors.ENDC, end=" ")
                 if self.matrix[i][j]==7:
-                    print(bcolors.OKBLUE+"x", end=" ")
+                    print(bcolors.OKBLUE+"x"+ bcolors.ENDC, end=" ")
             print()
 
     def mark_road_map(self, road):
         for x in range(len(road)):
             self.matrix[road[x].x][road[x].y]=7
+        self.matrix[self.starting_point.x][self.starting_point.y]=4
+        self.matrix[self.finish_point.x][self.finish_point.y]=5
 
 class Astar:
     def __init__(self, size_x, size_y, walls, starting_point, finish_point):
