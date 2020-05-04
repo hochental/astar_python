@@ -1,5 +1,16 @@
 #POPRAWIC DZIWNE PETLE / NIE WYWALA ODWIEDZONYCH
 from collections import deque
+from random import randrange
+
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
 
 class Point:
     def get_x():
@@ -16,16 +27,11 @@ class Mesh:
         self.starting_point = starting_point
         self.finish_point = finish_point
         self.matrix = [[0 for x in range(size_x)] for y in range(size_y)]
-        self.matrix[starting_point.x][starting_point.y]=4
-        self.matrix[finish_point.x][finish_point.y]=5
-        self.matrix[3][5]=-1
-        self.matrix[4][5]=-1
-        self.matrix[5][5]=-1
-        self.matrix[6][5]=-1
-        self.matrix[7][5]=-1
-        self.matrix[8][5]=-1
-        self.matrix[9][5]=-1
-        self.matrix[10][5]=-1
+        for x in range(90):
+            if randrange(10)%2==0:
+                self.matrix[randrange(10)][randrange(10)]=-1
+        self.matrix[starting_point.x][starting_point.y] = 4
+        self.matrix[finish_point.x][finish_point.y] = 5
 
     def check_if_not_out(self, i, j):
         inBoundsX = (i >= 0) and (i < self.size_x);
@@ -38,7 +44,16 @@ class Mesh:
     def print_map(self):
         for i in range(len(self.matrix)):
             for j in range(len(self.matrix[i])):
-                print(self.matrix[i][j], end=" ")
+                if self.matrix[i][j]==-1:
+                    print(bcolors.OKGREEN+"#", end=" ")
+                if self.matrix[i][j]==0:
+                    print(bcolors.BOLD+"0", end=" ")
+                if self.matrix[i][j]==4:
+                    print(bcolors.OKGREEN+"^", end=" ")
+                if self.matrix[i][j]==5:
+                    print(bcolors.WARNING+"%", end=" ")
+                if self.matrix[i][j]==7:
+                    print(bcolors.OKBLUE+"x", end=" ")
             print()
 
     def mark_road_map(self, road):
@@ -93,5 +108,5 @@ class Astar:
             self.mesh.mark_road_map(self.closed_list)
             self.mesh.print_map()
 
-astar = Astar(11, 11, 0, Point(9,1), Point(9,9))
+astar = Astar(11, 11, 0, Point(1,1), Point(9,9))
 astar.main_loop();
